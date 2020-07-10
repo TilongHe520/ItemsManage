@@ -8,9 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("items")
@@ -38,9 +43,13 @@ public class ItemsController {
     }
 
     @RequestMapping("save")
-    public String save(Items items){
+    public String save(Items items, MultipartFile file, HttpServletRequest request) throws IOException {
         items.setCreatetime(new Date());
-
+        System.out.println("提交的用户："+items);
+        String filePath = request.getSession().getServletContext().getRealPath("/upload"); //定义图片上传后的路径
+        System.out.println(filePath);
+        String newFileName = fileOperate(file,filePath);
+        items.setPic(newFileName);
         int a = itemsService.save(items);
         System.out.println(a);
 
@@ -83,5 +92,27 @@ public class ItemsController {
 
         //跳转
         return "items/add";
+    }
+
+    /**
+     * 封装操作文件方法， 添加用户 和修改用户都会用到
+     * @param file
+     * @param filePath
+     * @return
+     */
+    private String fileOperate(MultipartFile file,String filePath) {
+        String originalFileName = file.getOriginalFilename();//获取原始图片的扩展名
+        System.out.println("图片原始名称："+originalFileName);
+        String newFileName = UUID.randomUUID()+originalFileName;  //新的文件名称
+        System.out.println("新的文件名称："+newFileName);
+        File targetFile = new File(filePath,newFileName); //创建新文件
+        try {
+            file.transferTo(targetFile); //把本地文件上传到文件位置 , transferTo()是springmvc封装的方法，用于图片上传时，把内存中图片写入磁盘
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return newFileName;
     }
 }

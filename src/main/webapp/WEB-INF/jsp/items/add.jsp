@@ -10,11 +10,25 @@
 <html>
 <head>
     <title>增加商品</title>
-
+    <script type="text/javascript">
+        function showPreview(source) {
+            var file = source.files[0];
+            if(window.FileReader) {
+                var fr = new FileReader();
+                console.log(fr);
+                var portrait = document.getElementById('portrait');
+                fr.onloadend = function(e) {
+                    portrait.src = e.target.result;
+                };
+                fr.readAsDataURL(file);
+                portrait.style.display = 'block';
+            }
+        }
+    </script>
 </head>
 <body>
 
-<form action="${pageContext.request.contextPath}/items/save" method="post">
+<form action="${pageContext.request.contextPath}/items/save" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td>名称</td>
@@ -42,8 +56,8 @@
         <tr>
             <td>图片</td>
             <td>
-                <img src="${item.pic}" width="100px" height="100px">
-                <input type="file"  name="itempic1" onchange="submitImage();">
+                <input type="file" name="file" onchange="showPreview(this)"/><br/><br/>
+                <img id="portrait" src="" style="display:none;width: 100px;height:100px;"/><br/><br/>
             </td>
         </tr>
         <tr>

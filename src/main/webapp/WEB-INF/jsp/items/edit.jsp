@@ -57,7 +57,7 @@
         <tr>
             <td>图片</td>
             <td>
-                <img src="${item.pic}" width="100px" height="100px">
+                <img src="${pageContext.request.contextPath}/upload/${item.pic}" width="100px" height="100px">
                 <input type="file"  name="itempic1" onchange="submitImage();">
             </td>
         </tr>
