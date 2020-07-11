@@ -2,6 +2,7 @@ package com.service;
 
 import com.pojo.Items;
 
+import java.io.File;
 import java.util.List;
 
 public interface ItemsService {
@@ -15,4 +16,6 @@ public interface ItemsService {
     int delete(Integer id);
 
     Items findById(Integer id);
+
+    File exportItems();
 }

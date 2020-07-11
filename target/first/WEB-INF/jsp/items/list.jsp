@@ -37,6 +37,9 @@
 <hr>
 <a href="${pageContext.request.contextPath}/orders/list"> 查看订单</a><br>
 <hr>
+<a id="export" class="btn btn-default" href="${pageContext.request.contextPath}/items/export">
+    <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出
+</a>
 <table>
     <tr>
         <td>总销售金额：${sum}元</td>
