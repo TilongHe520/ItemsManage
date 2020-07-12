@@ -75,6 +75,7 @@
 
                 <a href="${pageContext.request.contextPath}/items/delete?id=${items.id}">删除</a>
                 &nbsp;<a href="${pageContext.request.contextPath}/items/edit?id=${items.id}">编辑</a>
+                &nbsp;<a href="${pageContext.request.contextPath}/items/buyGoods?id=${items.id}">购买</a>
             </td>
         </tr>
 

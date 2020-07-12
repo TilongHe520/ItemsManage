@@ -1,6 +1,8 @@
 package com.controller;
 
+import com.pojo.Goods;
 import com.pojo.Items;
+import com.service.GoodsService;
 import com.service.ItemsService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ import java.util.UUID;
 public class ItemsController {
     @Autowired
     private ItemsService itemsService;
+
+    @Autowired
+    private GoodsService goodsService;
+
+    private int ids;
 
     @RequestMapping("list")
     private String list(@RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage, Model model){
@@ -96,6 +103,40 @@ public class ItemsController {
         //跳转
         return "items/add";
     }
+
+    /*
+    **购买商品
+     */
+    @RequestMapping("buyGoods")
+    public String buyGoods(Integer id,Model model){
+
+        Items item = itemsService.findById(id);
+        if(item!=null){
+            model.addAttribute("item", item);
+        }
+        ids = id;
+        //跳转
+        return "items/buyGoods";
+    }
+    @RequestMapping("orderGoods")
+    public String orderGoods(Goods goods){
+        Items items = itemsService.findById(ids);
+        goods.setItemId(items.getId());
+        goods.setCreatetime(new Date());
+        goods.setPrice(items.getPrice());
+        goods.setName(items.getName());
+        if(items.getRemaincount()-goods.getNumber()<0){
+            return "items/fail";
+        }else {
+            goodsService.insert(goods);
+            items.setRemaincount(items.getRemaincount()-goods.getNumber());
+            itemsService.update(items);
+            //跳转
+            return "forward:list";
+        }
+
+    }
+
 
     @GetMapping("export")
     public ResponseEntity<byte[]> exportItem(HttpServletRequest request) throws IOException{
