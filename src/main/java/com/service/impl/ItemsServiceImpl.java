@@ -2,6 +2,7 @@ package com.service.impl;
 
 import com.dao.ItemsDao;
 import com.pojo.Items;
+import com.pojo.PageBean;
 import com.service.ItemsService;
 import com.util.ExcelUtils;
 import com.util.RequestUtils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +51,36 @@ public class ItemsServiceImpl implements ItemsService {
     @Override
     public Items findById(Integer id) {
         return itemsDao.findById(id);
+    }
+
+    @Override
+    public int selectCount() {
+        return itemsDao.selectCount();
+    }
+
+    @Override
+    public PageBean<Items> findByPage(int currentPage) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        PageBean<Items> pageBean = new PageBean<Items>();
+
+        pageBean.setCurrentPage(currentPage);
+
+        int pageSize=5;
+        pageBean.setPageSize(pageSize);
+
+        int totalCount =itemsDao.selectCount();
+        pageBean.setTotalCount(totalCount);
+
+        double tc = totalCount;
+        Double num = Math.ceil(tc/pageSize);
+        pageBean.setTotalpage(num.intValue());
+
+        map.put("start",(currentPage-1)*pageSize);
+        map.put("size",pageBean.getPageSize());
+
+        List<Items> lists =itemsDao.findByPage(map);
+        pageBean.setLists(lists);
+        return pageBean;
     }
 
     @Override

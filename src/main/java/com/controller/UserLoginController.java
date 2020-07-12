@@ -3,7 +3,6 @@ package com.controller;
 import com.pojo.Items;
 import com.pojo.User;
 import com.service.ItemsService;
-import com.service.PageService;
 import com.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,6 @@ public class UserLoginController {
     private UserInfoService userInfoService;
     @Autowired
     private ItemsService itemsService;
-    @Autowired
-    private PageService pageService;
 
 
     @RequestMapping(value = "/login")
@@ -35,7 +32,7 @@ public class UserLoginController {
             }
 
             model.addAttribute("sum",sum);
-            model.addAttribute("pagemsg",pageService.findByPage(currentPage));
+            model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
             return "items/list";
         }
         else {

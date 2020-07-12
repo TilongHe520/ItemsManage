@@ -86,5 +86,17 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+        select *
+        from items
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <!-- 查询用户记录总数 -->
+    <select id="selectCount" resultType="int">
+        select count(*) from items
+    </select>
+
 
 </mapper>

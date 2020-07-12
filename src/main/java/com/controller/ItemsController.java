@@ -2,7 +2,6 @@ package com.controller;
 
 import com.pojo.Items;
 import com.service.ItemsService;
-import com.service.PageService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,8 +27,6 @@ import java.util.UUID;
 public class ItemsController {
     @Autowired
     private ItemsService itemsService;
-    @Autowired
-    private PageService pageService;
 
     @RequestMapping("list")
     private String list(@RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage, Model model){
@@ -44,7 +41,7 @@ public class ItemsController {
         System.out.println(sum);
         model.addAttribute("sum",sum);
 
-        model.addAttribute("pagemsg",pageService.findByPage(currentPage));
+        model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
         return "items/list";
     }
 

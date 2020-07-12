@@ -2,6 +2,7 @@ package com.dao;
 
 import com.pojo.Items;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface ItemsDao {
@@ -10,5 +11,8 @@ public interface ItemsDao {
     int update(Items items);
     int delete(Integer id);
     Items findById(Integer id);
-    public List<Items> findAllItems();
+    List<Items> findAllItems();
+
+    int selectCount();
+    List<Items> findByPage(HashMap<String,Object> map);
 }
