@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.UserDao" >
-    <select id="queryUser" parameterType="User" resultType="User">
+    <select id="queryUser" parameterType="user" resultType="user">
         select * from t_user
         <where>
             <if test="username != null and username != ''">
@@ -17,7 +17,7 @@
 
     <!--用户注册-->
     <insert id="registerUser">
-        insert into t_user (username,password) values (#{username},#{password})
+        insert into t_user (username,password,isManager) values (#{username},#{password},#{isManager})
     </insert>
 
 </mapper>

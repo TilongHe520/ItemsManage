@@ -9,6 +9,9 @@
     </head>
 
     <body>
+    <br>
+    欢迎你：${user.username}
+    <br>
     <form action="${pageContext.request.contextPath}/items/orderGoods" method="post">
         <table border="1">
             <tr>

@@ -5,6 +5,7 @@ import java.util.Date;
 public class Goods {
     
     private Integer id;
+    private Integer userId;
     private Integer itemId;
     private String name;
     private Float price;
@@ -14,8 +15,9 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(Integer id, Integer itemId, String name, Float price, Integer number, Date createtime) {
+    public Goods(Integer id, Integer userId, Integer itemId, String name, Float price, Integer number, Date createtime) {
         this.id = id;
+        this.userId = userId;
         this.itemId = itemId;
         this.name = name;
         this.price = price;
@@ -27,12 +29,21 @@ public class Goods {
     public String toString() {
         return "Goods{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", itemId=" + itemId +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", number=" + number +
                 ", createtime=" + createtime +
                 '}';
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {

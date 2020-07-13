@@ -2,8 +2,10 @@ package com.controller;
 
 import com.pojo.Goods;
 import com.pojo.Items;
+import com.pojo.User;
 import com.service.GoodsService;
 import com.service.ItemsService;
+import com.service.UserInfoService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -33,23 +36,30 @@ public class ItemsController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     private int ids;
+    private int userId;
 
     @RequestMapping("list")
-    private String list(@RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage, Model model){
+    private String list(@RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage, Model model,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user.getIsManager()==1){
 
-        List<Items> itemsList = itemsService.findAllItems();
-        int sum=0;
+            List<Items> itemsList = itemsService.findAllItems();
+            int sum=0;
+            for (Items items:itemsList){
+                sum+=(items.getTotalcount()-items.getRemaincount())*items.getPrice();
+            }
 
-        for (Items items:itemsList){
-            sum+=(items.getTotalcount()-items.getRemaincount())*items.getPrice();
+            model.addAttribute("sum",sum);
+            model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
+            return "items/list";
+        }else {
+            model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
+            return "custom/list";
         }
-
-        System.out.println(sum);
-        model.addAttribute("sum",sum);
-
-        model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
-        return "items/list";
     }
 
     @RequestMapping("save")
@@ -108,13 +118,21 @@ public class ItemsController {
     **购买商品
      */
     @RequestMapping("buyGoods")
-    public String buyGoods(Integer id,Model model){
+    public String buyGoods(HttpSession session,Integer id, Model model){
+
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user",user);
+
+        System.out.println(user);
 
         Items item = itemsService.findById(id);
         if(item!=null){
             model.addAttribute("item", item);
         }
         ids = id;
+
+        userId = user.getId();
+
         //跳转
         return "items/buyGoods";
     }
@@ -125,6 +143,7 @@ public class ItemsController {
         goods.setCreatetime(new Date());
         goods.setPrice(items.getPrice());
         goods.setName(items.getName());
+        goods.setUserId(userId);
         if(items.getRemaincount()-goods.getNumber()<0){
             return "items/fail";
         }else {

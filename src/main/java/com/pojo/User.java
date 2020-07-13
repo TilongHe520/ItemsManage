@@ -5,6 +5,15 @@ public class User {
     private Integer id;
     private String username;
     private String password;
+    private int isManager;
+
+    public int getIsManager() {
+        return isManager;
+    }
+
+    public void setIsManager(int isManager) {
+        this.isManager = isManager;
+    }
 
     public Integer getId() {
         return id;
@@ -36,6 +45,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", isManager='" + isManager + '\'' +
                 '}';
     }
 }

@@ -25,17 +25,26 @@ public class UserLoginController {
     public String login(HttpSession session,User user, Model model, @RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage){
         User userInfo = userInfoService.queryUser(user);
         System.out.println(userInfo);
+
+        session.setAttribute("user", userInfo);
+
         if(userInfo != null){
-            session.setAttribute("user", userInfo);
-            List<Items> itemsList = itemsService.findAllItems();
-            int sum=0;
-            for (Items items:itemsList){
-                sum+=(items.getTotalcount()-items.getRemaincount())*items.getPrice();
+            if (userInfo.getIsManager()==1){
+
+                List<Items> itemsList = itemsService.findAllItems();
+                int sum=0;
+                for (Items items:itemsList){
+                    sum+=(items.getTotalcount()-items.getRemaincount())*items.getPrice();
+                }
+
+                model.addAttribute("sum",sum);
+                model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
+                return "items/list";
+            }else {
+                model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
+                return "custom/list";
             }
 
-            model.addAttribute("sum",sum);
-            model.addAttribute("pagemsg",itemsService.findByPage(currentPage));
-            return "items/list";
         }
         else {
             return "login/fail";

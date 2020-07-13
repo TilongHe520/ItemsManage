@@ -27,6 +27,12 @@
                 <input type="text" name="password" id="password">
             </td>
         </tr>
+        <tr height="35px">
+            <td>是否管理员</td>
+            <td>
+                <input type="text" name="isManager" id="isManager">
+            </td>
+        </tr>
         <tr>
             <td colspan="2" align="center">
                 <input type="submit" id="register" value="注册"/>

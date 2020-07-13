@@ -18,6 +18,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public void registerUser(User user){
-        userDao.registerUser(user.getUsername(),user.getPassword());
+        userDao.registerUser(user.getUsername(),user.getPassword(),user.getIsManager());
     }
 }
