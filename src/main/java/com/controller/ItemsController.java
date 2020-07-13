@@ -36,8 +36,6 @@ public class ItemsController {
     @Autowired
     private GoodsService goodsService;
 
-    @Autowired
-    private UserInfoService userInfoService;
 
     private int ids;
     private int userId;

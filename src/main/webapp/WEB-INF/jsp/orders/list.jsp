@@ -16,22 +16,21 @@
 <table border="1">
     <tr>
         <td>用户id</td>
-        <td>订单id</td>
-        <td>生成时间</td>
-        <td>记录</td>
+        <td>商品id</td>
+        <td>商品</td>
+        <td>单价</td>
+        <td>购买数量</td>
+        <td>购买时间</td>
         <!--td>操作</td-->
     </tr>
     <c:forEach items="${ordersList}" var="orders">
         <tr>
             <td>${orders.userId}</td>
+            <td>${orders.itemId}</td>
+            <td>${orders.name}</td>
+            <td>${orders.price}</td>
             <td>${orders.number}</td>
             <td>${orders.createtime}</td>
-            <td>${orders.note}</td>
-            <!--td>
-                <a href="${pageContext.request.contextPath}/items/delete.do?id=${items.id}">删除</a>
-                &nbsp;<a href="${pageContext.request.contextPath}/items/edit.do?id=${items.id}">编辑</a>
-
-            </--td-->
         </tr>
     </c:forEach>
 </table>

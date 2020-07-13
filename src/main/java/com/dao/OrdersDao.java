@@ -1,9 +1,12 @@
 package com.dao;
 
-import com.pojo.Orders;
+import com.pojo.Goods;
 
 import java.util.List;
 
 public interface OrdersDao {
-    public List<Orders> findAllOrders();
+    List<Goods> findAllOrders();
+
+    List<Goods> findOrdersByUserId(int userId);
+
 }
