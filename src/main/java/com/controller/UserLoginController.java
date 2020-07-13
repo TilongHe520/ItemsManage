@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,10 +22,11 @@ public class UserLoginController {
 
 
     @RequestMapping(value = "/login")
-    public String login(User user, Model model, @RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage){
+    public String login(HttpSession session,User user, Model model, @RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage){
         User userInfo = userInfoService.queryUser(user);
         System.out.println(userInfo);
         if(userInfo != null){
+            session.setAttribute("user", userInfo);
             List<Items> itemsList = itemsService.findAllItems();
             int sum=0;
             for (Items items:itemsList){

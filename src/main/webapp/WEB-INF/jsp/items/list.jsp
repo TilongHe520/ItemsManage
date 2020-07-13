@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
+欢迎你：${user.username}
 <br>
 <%-- 当前用户：${pageScope.currentUser}<!-- (只能在同一个页面中使用) --> <br>
 当前用户：${requestScope.currentUser}-${roleName} 有重定向数据就访问不到<br>
