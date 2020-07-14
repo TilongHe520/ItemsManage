@@ -1,9 +1,11 @@
 package com.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.pojo.Goods;
 import com.pojo.User;
 import com.service.OrdersService;
+import com.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,8 @@ public class OrdersController {
 
         }
         model.addAttribute("ordersList",ordersList);
+        System.out.println(JSON.toJSONString(ordersList));;
+
         return "orders/list";
     }
 }
