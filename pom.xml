@@ -19,7 +19,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <junit_version>4.11</junit_version>
-    <springmvc_version>4.3.18.RELEASE</springmvc_version>
+    <springmvc_version>5.3.18</springmvc_version>
     <mybatis.version>3.4.1</mybatis.version>
 
     <mybatis-spring.version>1.3.1</mybatis-spring.version>
